@@ -65,7 +65,7 @@ footer a{color:#b8d6ff;text-decoration:none;margin-right:14px;font-size:13px}
     <div class="searchbox">
       <input id="q" type="search" placeholder="Job title, skill or company…" aria-label="Search jobs">
       <select id="country" aria-label="Choose country"><option value="">All countries</option><option>United Arab Emirates</option><option>India</option><option>New Zealand</option><option>Germany</option><option>United Kingdom</option></select>
-      <button class="btn" onclick="renderJobs()">Search jobs</button>
+      <button class="btn" type="button" onclick="renderJobs(); document.getElementById('jobs').scrollIntoView({behavior:'smooth'});">Search jobs</button>
     </div>
   </section>
 </header>
@@ -136,7 +136,7 @@ function renderJobs(){
  const query=document.getElementById("q").value.trim().toLowerCase();
  const country=document.getElementById("country").value;
  const filtered=allJobs().filter(j=>(activeCategory==="All"||j.category===activeCategory)&&(!country||j.country===country)&&(!query||[j.title,j.company,j.country,j.category,j.description].join(" ").toLowerCase().includes(query)));
- document.getElementById("jobCount").textContent=allJobs().length;
+ document.getElementById("jobCount").textContent=filtered.length;
  list.innerHTML=filtered.length?"":"<div class='empty'>No matching listings. Try another keyword or country.</div>";
  filtered.forEach(j=>{
   const card=document.createElement("article");card.className="job";
@@ -147,6 +147,12 @@ function renderJobs(){
 }
 document.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeCategory=b.dataset.cat;renderJobs()}));
 document.getElementById("q").addEventListener("input",renderJobs);
+  document.getElementById("q").addEventListener("keydown",function(e){
+ if(e.key==="Enter"){
+  renderJobs();
+  document.getElementById("jobs").scrollIntoView({behavior:"smooth"});
+ }
+});
 document.getElementById("country").addEventListener("change",renderJobs);
 function resetFilters(){document.getElementById("q").value="";document.getElementById("country").value="";activeCategory="All";document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.dataset.cat==="All"));renderJobs()}
 document.getElementById("jobForm").addEventListener("submit",e=>{
