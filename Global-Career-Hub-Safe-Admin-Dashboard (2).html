@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore job opportunities worldwide. Search jobs by country, category and experience, then apply through official employer websites.">
+<meta name="theme-color" content="#10264b">
+<title>Global Career Hub — Find Your Next Opportunity</title>
+<style>
+:root{--navy:#10264b;--blue:#1769aa;--pale:#eef5fc;--ink:#172235;--muted:#64748b;--line:#dce5ef;--white:#fff;--green:#137a50}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#f5f8fc;line-height:1.5}
+header{background:linear-gradient(120deg,#10264b,#1769aa);color:white;padding:24px 16px 30px}
+.wrap{width:min(1050px,100% - 28px);margin:auto}.brand{font-size:13px;letter-spacing:2px;font-weight:800}.hero h1{font-size:clamp(27px,6vw,42px);line-height:1.12;margin:14px 0 8px}.hero p{max-width:650px;color:#e1edfa;margin:0}
+main{padding:20px 0 42px}.panel,.job,.admin{background:white;border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:16px;box-shadow:0 5px 18px #10264b0a}
+h2{font-size:21px;margin:0 0 12px;color:var(--navy)}h3{margin:0 0 7px;font-size:18px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.controls input,.controls select,.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #cbd6e2;border-radius:9px;font-size:15px;background:white;color:var(--ink)}
+button,.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:700;font-size:14px;cursor:pointer;background:var(--blue);color:white;text-decoration:none;display:inline-block}
+button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#b42318}button:disabled{opacity:.55}
+.actions,.chips,.job-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{border:1px solid var(--line);background:white;color:var(--navy);border-radius:30px;padding:8px 12px;font-size:13px}.chip.active{background:var(--navy);color:white}
+.job-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.job{margin:0}.job p{margin:7px 0;color:#43536a;white-space:pre-wrap}.job-meta span{background:var(--pale);padding:5px 8px;border-radius:7px;font-size:12px;color:#24466d}.muted{color:var(--muted);font-size:13px}.notice{background:#fff8e8;border:1px solid #f1d79c;padding:12px;border-radius:10px;color:#6c4b0b;font-size:13px}
+.field{margin:10px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.field textarea{min-height:90px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none!important}.status{font-size:13px;margin:8px 0;color:var(--green)}footer{text-align:center;padding:22px 14px;background:#10264b;color:#dce8f6;font-size:13px}
+@media(max-width:650px){.job-grid{grid-template-columns:1fr}.controls,.two{grid-template-columns:1fr}.wrap{width:min(100% - 22px,1050px)}header{padding-top:20px}}
+</style>
+</head>
+<body>
+<header><div class="wrap hero">
+  <div class="brand">GLOBAL CAREER HUB</div>
+  <h1>Your next opportunity starts here</h1>
+  <p>Find opportunities. Build your future. Explore jobs by country, role and experience, then apply through official employer websites.</p>
+</div></header>
+<main class="wrap">
+  <section class="panel">
+    <h2>Search jobs worldwide</h2>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search job title, company or keyword" aria-label="Search jobs">
+      <select id="country" aria-label="Choose country"><option value="">All countries</option><option>United Arab Emirates</option><option>India</option><option>New Zealand</option><option>Germany</option><option>United Kingdom</option></select>
+      <select id="category" aria-label="Choose category"><option value="">All categories</option><option>Construction</option><option>HVAC & Maintenance</option><option>Hospitality</option><option>Driving</option><option>Office & Admin</option><option>Warehouse</option><option>Other</option></select>
+      <select id="experience" aria-label="Choose experience"><option value="">Any experience</option><option>Fresher</option><option>1-2 years</option><option>2-5 years</option><option>5+ years</option></select>
+    </div>
+    <div class="actions"><button id="searchBtn">Search jobs</button><button class="secondary" id="resetBtn">Reset filters</button></div>
+  </section>
+  <section>
+    <h2 id="jobsHeading">Latest published jobs</h2>
+    <p class="muted" id="count">Loading jobs…</p>
+    <div id="jobs" class="job-grid"></div>
+    <p id="empty" class="notice hidden">Abhi koi published job available nahi hai. Admin dashboard se verified vacancy publish karne par yahan dikhegi.</p>
+    <p id="loadError" class="notice hidden"></p>
+  </section>
+  <section class="panel">
+    <h2>Career tools</h2>
+    <div class="actions">
+      <a class="btn" href="https://europa.eu/europass/en" target="_blank" rel="noopener">Europass CV</a>
+      <a class="btn" href="https://www.careeronestop.org/" target="_blank" rel="noopener">CareerOneStop</a>
+      <a class="btn" href="https://www.immigration.govt.nz/" target="_blank" rel="noopener">New Zealand Immigration</a>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>About Global Career Hub</h2>
+    <p class="muted">Global Career Hub shares job information and links applicants to employer application pages. We are not a recruitment agency. We do not guarantee jobs, interviews or visas, and we never ask applicants to pay us for a job.</p>
+    <p class="notice">Safety first: verify every vacancy on the employer’s official website. Never pay money to an individual for a job offer, interview, visa or work permit.</p>
+  </section>
+  <section class="admin">
+    <h2>Admin dashboard</h2>
+    <p class="muted">Only the authorized admin account can manage job listings.</p>
+    <div id="loginBox">
+      <div class="two">
+        <div class="field"><label for="email">Admin email</label><input id="email" type="email" autocomplete="username" placeholder="Admin email"></div>
+        <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Password"></div>
+      </div>
+      <button id="loginBtn">Admin Login</button><p id="loginMsg" class="status" aria-live="polite"></p>
+    </div>
+    <div id="dashboard" class="hidden">
+      <div class="actions"><button id="logoutBtn" class="secondary">Logout</button><button id="newJobBtn">Add new job</button></div>
+      <p id="adminMsg" class="status" aria-live="polite"></p>
+      <form id="jobForm" class="hidden">
+        <input type="hidden" id="jobId">
+        <div class="two">
+          <div class="field"><label for="title">Job title *</label><input id="title" required maxlength="150"></div>
+          <div class="field"><label for="company">Company *</label><input id="company" required maxlength="150"></div>
+          <div class="field"><label for="jobCountry">Country *</label><input id="jobCountry" required placeholder="United Arab Emirates"></div>
+          <div class="field"><label for="location">Location</label><input id="location" placeholder="Dubai"></div>
+          <div class="field"><label for="jobCategory">Category</label><select id="jobCategory"><option>Construction</option><option>HVAC & Maintenance</option><option>Hospitality</option><option>Driving</option><option>Office & Admin</option><option>Warehouse</option><option>Other</option></select></div>
+          <div class="field"><label for="jobExperience">Experience</label><input id="jobExperience" placeholder="1-2 years"></div>
+          <div class="field"><label for="salary">Salary</label><input id="salary" placeholder="As per company policy"></div>
+          <div class="field"><label for="jobType">Job type</label><select id="jobType"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Temporary</option></select></div>
+          <div class="field"><label for="qualification">Qualification</label><input id="qualification"></div>
+          <div class="field"><label for="imageUrl">Image URL (optional)</label><input id="imageUrl" type="url" placeholder="https://…"></div>
+        </div>
+        <div class="field"><label for="applyUrl">Official apply URL *</label><input id="applyUrl" type="url" required placeholder="https://official-company-website…"></div>
+        <div class="field"><label for="description">Job description *</label><textarea id="description" required></textarea></div>
+        <div class="field"><label for="jobStatus">Status</label><select id="jobStatus"><option value="draft">Save as draft</option><option value="published">Publish job</option></select></div>
+        <div class="actions"><button type="submit" id="saveBtn">Save job</button><button type="button" class="secondary" id="cancelBtn">Cancel</button></div>
+      </form>
+      <div class="panel">
+        <h3>AI Job Generator</h3>
+        <p class="muted">Job title, company and key details enter karke AI se description draft banwayein. Is feature ke liye secure Supabase Edge Function <code>generate-job</code> deploy karna zaroori hai.</p>
+        <div class="field"><label for="aiPrompt">Job details / vacancy notes</label><textarea id="aiPrompt" placeholder="Example: HVAC Technician, Dubai, 2 years experience, chiller maintenance…"></textarea></div>
+        <button id="aiBtn" class="secondary">Generate job draft</button><p id="aiMsg" class="status" aria-live="polite"></p>
+      </div>
+      <h3>Your job listings</h3><div id="adminJobs"></div>
+    </div>
+  </section>
+</main>
+<footer>© <span id="year"></span> Global Career Hub · Verify vacancies with employers before applying.</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Add your Supabase project URL and publishable/anon key below.
+   Never paste a service_role key or an AI provider secret into this public file. */
+const SUPABASE_URL = "https://enlxskumjcizhykeiekz.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_IcCFouYpbUMADXkUji0IDQ_HWRf60KY";
+const CONFIG_READY = SUPABASE_ANON_KEY.startsWith("eyJ") || SUPABASE_ANON_KEY.startsWith("sb_publishable_");
+const $ = id => document.getElementById(id);
+let db = null, currentUser = null, adminJobs = [], editingId = null;
+if (window.supabase && CONFIG_READY) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+$("year").textContent = new Date().getFullYear();
+
+function safe(value){return String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function filteredJobs(){
+ const q=$("q").value.trim().toLowerCase(), country=$("country").value, cat=$("category").value, exp=$("experience").value;
+ return window.publicJobs.filter(j=>(!q||[j.title,j.company,j.description,j.location].join(" ").toLowerCase().includes(q))&&(!country||String(j.Country||"").toLowerCase()===country.toLowerCase())&&(!cat||j.category===cat)&&(!exp||String(j.experience||"").toLowerCase().includes(exp.toLowerCase())));
+}
+const sampleJobs = [
+ {id:"demo-1",title:"Construction Helper",company:"Example employer — demo listing",Country:"United Arab Emirates",category:"Construction",experience:"Fresher / experience may vary",salary:"Not specified",description:"Illustrative listing only. Confirm the vacancy, employer and terms before applying.",apply_url:"https://u.ae/en/information-and-services/jobs"},
+ {id:"demo-2",title:"HVAC / Maintenance Assistant",company:"Example employer — demo listing",Country:"United Arab Emirates",category:"HVAC & Maintenance",experience:"1-2 years",salary:"Not specified",description:"Illustrative listing only. Check required trade skills, shift pattern and accommodation.",apply_url:"https://u.ae/en/information-and-services/jobs"},
+ {id:"demo-3",title:"Warehouse Associate",company:"Example employer — demo listing",Country:"India",category:"Warehouse",experience:"Fresher considered",salary:"Not specified",description:"Illustrative listing only. Confirm location, payroll entity and written offer.",apply_url:"https://www.ncs.gov.in/"},
+ {id:"demo-4",title:"Hotel Housekeeping Attendant",company:"Example employer — demo listing",Country:"New Zealand",category:"Hospitality",experience:"Experience preferred",salary:"Not specified",description:"Illustrative listing only. Check work rights and employer accreditation where applicable.",apply_url:"https://www.seek.co.nz/"},
+ {id:"demo-5",title:"Delivery Driver",company:"Example employer — demo listing",Country:"United Kingdom",category:"Driving",experience:"Valid local licence required",salary:"Not specified",description:"Illustrative listing only. Confirm licence conversion and right-to-work requirements.",apply_url:"https://findajob.dwp.gov.uk/"},
+ {id:"demo-6",title:"Building Maintenance Technician",company:"Example employer — demo listing",Country:"Germany",category:"HVAC & Maintenance",experience:"2 years preferred",salary:"Not specified",description:"Illustrative listing only. Check language, qualifications and work permit requirements.",apply_url:"https://www.make-it-in-germany.com/en/working-in-germany/job-listings"}
+];
+window.publicJobs=[];
+function renderPublic(){
+ const list=filteredJobs();$("count").textContent=list.length+" published job(s)";
+ $("jobs").innerHTML=list.map(j=>`<article class="job"><h3>${safe(j.title)}</h3><strong>${safe(j.company)}</strong><div class="job-meta"><span>${safe(j.Country)}</span>${j.location?`<span>${safe(j.location)}</span>`:""}${j.category?`<span>${safe(j.category)}</span>`:""}${j.experience?`<span>${safe(j.experience)}</span>`:""}</div><p>${safe(j.description)}</p>${j.salary?`<p><b>Salary:</b> ${safe(j.salary)}</p>`:""}<a class="btn" href="${safe(j.apply_url)}" target="_blank" rel="noopener noreferrer nofollow">Apply on official website</a></article>`).join("");
+ $("empty").classList.toggle("hidden",list.length!==0);$("jobs").classList.toggle("hidden",list.length===0);
+}
+async function loadPublic(){
+ if(!db){$("count").textContent="Website setup pending";$("loadError").textContent="Supabase key abhi code mein add nahi hui hai. Admin key nahi, sirf publishable/anon key use karein.";$("loadError").classList.remove("hidden");return;}
+ try{const {data,error}=await db.from("jobs").select("*").eq("status","published").order("posted_at",{ascending:false});if(error)throw error;window.publicJobs=(data && data.length)?data:sampleJobs;$("loadError").classList.add("hidden");renderPublic();}
+ catch(e){$("loadError").textContent="Jobs load nahi ho paaye: "+e.message;$("loadError").classList.remove("hidden");$("count").textContent="Unable to load jobs";}
+}
+["searchBtn","q","country","category","experience"].forEach(id=>$(id).addEventListener(id==="searchBtn"?"click":"input",renderPublic));
+$("resetBtn").addEventListener("click",()=>{$("q").value="";$("country").value="";$("category").value="";$("experience").value="";renderPublic();});
+function msg(id,text){$(id).textContent=text;}
+async function checkAdmin(){
+ const {data:{session}}=await db.auth.getSession();currentUser=session?.user||null;
+ if(!currentUser){$("loginBox").classList.remove("hidden");$("dashboard").classList.add("hidden");return;}
+ const {data:roleRow,error}=await db.from("user_roles").select("role").eq("user_id",currentUser.id).maybeSingle();
+ if(error||roleRow?.role!=="admin"){await db.auth.signOut();currentUser=null;msg("loginMsg","Is account ko admin permission nahi hai.");return;}
+ $("loginBox").classList.add("hidden");$("dashboard").classList.remove("hidden");await loadAdminJobs();
+}
+$("loginBtn").addEventListener("click",async()=>{
+ if(!db){msg("loginMsg","Pehle Supabase publishable/anon key add karni hogi.");return;}
+ msg("loginMsg","Signing in…");const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+ if(error){msg("loginMsg",error.message);return;}await checkAdmin();
+});
+$("logoutBtn").addEventListener("click",async()=>{await db.auth.signOut();$("dashboard").classList.add("hidden");$("loginBox").classList.remove("hidden");});
+async function loadAdminJobs(){
+ const {data,error}=await db.from("jobs").select("*").order("created_at",{ascending:false});
+ if(error){msg("adminMsg",error.message);return;}adminJobs=data||[];
+ $("adminJobs").innerHTML=adminJobs.map(j=>`<div class="job"><b>${safe(j.title)}</b> · ${safe(j.Country)} · <span class="muted">${safe(j.status)}</span><div class="actions"><button class="secondary" data-edit="${j.id}">Edit</button><button class="danger" data-delete="${j.id}">Delete</button></div></div>`).join("")||'<p class="muted">No jobs added yet.</p>';
+ $("adminJobs").querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editJob(b.dataset.edit)));
+ $("adminJobs").querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteJob(b.dataset.delete)));
+}
+function clearForm(){$("jobForm").reset();$("jobId").value="";editingId=null;$("jobStatus").value="draft";}
+$("newJobBtn").addEventListener("click",()=>{clearForm();$("jobForm").classList.remove("hidden");});
+$("cancelBtn").addEventListener("click",()=>{$("jobForm").classList.add("hidden");clearForm();});
+function editJob(id){
+ const j=adminJobs.find(x=>String(x.id)===String(id));if(!j)return;editingId=j.id;
+ const map={title:"title",company:"company",jobCountry:"Country",location:"location",jobCategory:"category",jobExperience:"experience",salary:"salary",jobType:"job_type",qualification:"qualification",imageUrl:"image_url",applyUrl:"apply_url",description:"description",jobStatus:"status"};
+ Object.entries(map).forEach(([field,key])=>$(field).value=j[key]||"");
+ $("jobForm").classList.remove("hidden");$("jobForm").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("jobForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!db||!currentUser)return;
+ const url=$("applyUrl").value.trim();if(!/^https:\/\//i.test(url)){msg("adminMsg","Official Apply URL https:// se start hona chahiye.");return;}
+ const payload={title:$("title").value.trim(),company:$("company").value.trim(),Country:$("jobCountry").value.trim(),location:$("location").value.trim(),category:$("jobCategory").value,experience:$("jobExperience").value.trim(),salary:$("salary").value.trim(),job_type:$("jobType").value,qualification:$("qualification").value.trim(),image_url:$("imageUrl").value.trim()||null,apply_url:url,description:$("description").value.trim(),status:$("jobStatus").value,posted_at:$("jobStatus").value==="published"?new Date().toISOString():null};
+ $("saveBtn").disabled=true;msg("adminMsg","Saving…");
+ const result=editingId?await db.from("jobs").update(payload).eq("id",editingId):await db.from("jobs").insert(payload);
+ $("saveBtn").disabled=false;if(result.error){msg("adminMsg",result.error.message);return;}
+ msg("adminMsg","Job saved successfully.");$("jobForm").classList.add("hidden");clearForm();await loadAdminJobs();await loadPublic();
+});
+async function deleteJob(id){
+ if(!confirm("Kya aap is job ko permanently delete karna chahte hain?"))return;
+ const {error}=await db.from("jobs").delete().eq("id",id);if(error){msg("adminMsg",error.message);return;}msg("adminMsg","Job deleted.");await loadAdminJobs();await loadPublic();
+}
+$("aiBtn").addEventListener("click",async()=>{
+ if(!db||!currentUser){msg("aiMsg","Pehle admin login karein.");return;}
+ const prompt=$("aiPrompt").value.trim();if(!prompt){msg("aiMsg","Pehle job details likhein.");return;}
+ $("aiBtn").disabled=true;msg("aiMsg","AI draft request bhej rahe hain…");
+ const {data,error}=await db.functions.invoke("generate-job",{body:{prompt}});
+ $("aiBtn").disabled=false;
+ if(error){msg("aiMsg","AI backend abhi deploy nahi hai ya request fail hui: "+error.message);return;}
+ if(data?.description){$("description").value=data.description;if(data.title)$("title").value=data.title;msg("aiMsg","Draft ready. Details verify karke Save karein.");}
+ else msg("aiMsg","AI response mila, lekin description field nahi mili. Edge Function response check karein.");
+});
+if(db){checkAdmin();}loadPublic();
+</script>
+</body>
+</html>
