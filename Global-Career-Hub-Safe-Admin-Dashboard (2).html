@@ -133,10 +133,36 @@ function renderPublic(){
  $("jobs").innerHTML=list.map(j=>`<article class="job"><h3>${safe(j.title)}</h3><strong>${safe(j.company)}</strong><div class="job-meta"><span>${safe(j.Country)}</span>${j.location?`<span>${safe(j.location)}</span>`:""}${j.category?`<span>${safe(j.category)}</span>`:""}${j.experience?`<span>${safe(j.experience)}</span>`:""}</div><p>${safe(j.description)}</p>${j.salary?`<p><b>Salary:</b> ${safe(j.salary)}</p>`:""}<a class="btn" href="${safe(j.apply_url)}" target="_blank" rel="noopener noreferrer nofollow">Apply on official website</a></article>`).join("");
  $("empty").classList.toggle("hidden",list.length!==0);$("jobs").classList.toggle("hidden",list.length===0);
 }
+
 async function loadPublic(){
- if(!db){$("count").textContent="Website setup pending";$("loadError").textContent="Supabase key abhi code mein add nahi hui hai. Admin key nahi, sirf publishable/anon key use karein.";$("loadError").classList.remove("hidden");return;}
- try{const {data,error}=await db.from("jobs").select("*").eq("status","published").order("posted_at",{ascending:false});if(error)throw error;window.publicJobs=(data && data.length)?data:sampleJobs;$("loadError").classList.add("hidden");renderPublic();}
- catch(e){$("loadError").textContent="Jobs load nahi ho paaye: "+e.message;$("loadError").classList.remove("hidden");$("count").textContent="Unable to load jobs";}
+  if(!db){
+    window.publicJobs = [...sampleJobs];
+    $("loadError").textContent = "Supabase connection pending. Demo jobs are shown.";
+    $("loadError").classList.remove("hidden");
+    renderPublic();
+    return;
+  }
+
+  try{
+    const {data,error} = await db
+      .from("jobs")
+      .select("*")
+      .eq("status","published")
+      .order("posted_at",{ascending:false});
+
+    if(error) throw error;
+
+    window.publicJobs = [...sampleJobs,...(data || [])];
+
+    $("loadError").classList.add("hidden");
+    renderPublic();
+
+  }catch(e){
+    window.publicJobs = [...sampleJobs];
+    $("loadError").textContent = "Database jobs load nahi hue. Demo jobs abhi dikh rahe hain: " + e.message;
+    $("loadError").classList.remove("hidden");
+    renderPublic();
+  }
 }
 ["searchBtn","q","country","category","experience"].forEach(id=>$(id).addEventListener(id==="searchBtn"?"click":"input",renderPublic));
 $("resetBtn").addEventListener("click",()=>{$("q").value="";$("country").value="";$("category").value="";$("experience").value="";renderPublic();});
