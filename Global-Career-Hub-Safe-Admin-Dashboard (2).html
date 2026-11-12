@@ -183,8 +183,9 @@ $("logoutBtn").addEventListener("click",async()=>{await db.auth.signOut();$("das
 async function loadAdminJobs(){
  const {data,error}=await db.from("jobs").select("*").order("created_at",{ascending:false});
  if(error){msg("adminMsg",error.message);return;}adminJobs=data||[];
- $("adminJobs").innerHTML=adminJobs.map(j=>`<div class="job"><b>${safe(j.title)}</b> · ${safe(j.Country)} · <span class="muted">${safe(j.status)}</span><div class="actions"><button class="secondary" data-edit="${j.id}">Edit</button><button class="danger" data-delete="${j.id}">Delete</button></div></div>`).join("")||'<p class="muted">No jobs added yet.</p>';
+ $("adminJobs").innerHTML=adminJobs.map(j=>`<div class="job"><b>${safe(j.title)}</b> · ${safe(j.Country)} · <span class="muted">${safe(j.status)}</span><div class="actions"><button class="secondary" data-edit="${j.id}">Edit</button><button class="secondary" data-toggle="${j.id}" data-status="${safe(j.status)}">${j.status==="published"?"Unpublish":"Publish"}</button><button class="danger" data-delete="${j.id}">Delete</button></div></div>`).join("")||'<p class="muted">No jobs added yet.</p>';
  $("adminJobs").querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editJob(b.dataset.edit)));
+ $("adminJobs").querySelectorAll("[data-toggle]").forEach(b=>b.addEventListener("click",()=>toggleJobStatus(b.dataset.toggle,b.dataset.status)));
  $("adminJobs").querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteJob(b.dataset.delete)));
 }
 function clearForm(){$("jobForm").reset();$("jobId").value="";editingId=null;$("jobStatus").value="draft";}
@@ -205,6 +206,14 @@ $("jobForm").addEventListener("submit",async e=>{
  $("saveBtn").disabled=false;if(result.error){msg("adminMsg",result.error.message);return;}
  msg("adminMsg","Job saved successfully.");$("jobForm").classList.add("hidden");clearForm();await loadAdminJobs();await loadPublic();
 });
+async function toggleJobStatus(id,status){
+ if(!currentUser)return;
+ const next=status==="published"?"draft":"published";
+ const {error}=await db.from("jobs").update({status:next,posted_at:next==="published"?new Date().toISOString():null}).eq("id",id);
+ if(error){msg("adminMsg",error.message);return;}
+ msg("adminMsg",next==="published"?"Job published successfully.":"Job moved to draft.");
+ await loadAdminJobs();await loadPublic();
+}
 async function deleteJob(id){
  if(!confirm("Kya aap is job ko permanently delete karna chahte hain?"))return;
  const {error}=await db.from("jobs").delete().eq("id",id);if(error){msg("adminMsg",error.message);return;}msg("adminMsg","Job deleted.");await loadAdminJobs();await loadPublic();
