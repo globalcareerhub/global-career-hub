@@ -225,7 +225,7 @@ $("aiBtn").addEventListener("click",async()=>{
  const {data,error}=await db.functions.invoke("generate-job",{body:{prompt}});
  $("aiBtn").disabled=false;
  if(error){msg("aiMsg","AI backend abhi deploy nahi hai ya request fail hui: "+error.message);return;}
- if(data?.description){$("description").value=data.description;if(data.title)$("title").value=data.title;$("jobForm").classList.remove("hidden");$("jobForm").scrollIntoView({behavior:"smooth",block:"start"});msg("aiMsg","Draft ready. Details verify karke Save karein.");}
+ if(data?.description){$("description").value=data.description;if(data.title)$("title").value=data.title;const form=$("jobForm");form.classList.remove("hidden");form.style.setProperty("display","block","important");form.style.visibility="visible";form.scrollIntoView({behavior:"smooth",block:"start"});msg("aiMsg","Draft ready. Job title aur description neeche form mein bhar diye gaye hain. Verify karein.");}
  else msg("aiMsg","AI response mila, lekin description field nahi mili. Edge Function response check karein.");
 });
 if(db){checkAdmin();}loadPublic();
