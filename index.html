@@ -137,8 +137,8 @@ function renderPublic(){
 
 async function loadPublic(){
   if(!db){
-    window.publicJobs = [...sampleJobs];
-    $("loadError").textContent = "Supabase connection pending. Demo jobs are shown.";
+    window.publicJobs = [];
+    $("loadError").textContent = "Supabase connection pending. Published jobs are temporarily unavailable.";
     $("loadError").classList.remove("hidden");
     renderPublic();
     return;
@@ -153,14 +153,14 @@ async function loadPublic(){
 
     if(error) throw error;
 
-    window.publicJobs = [...sampleJobs,...(data || [])];
+    window.publicJobs = data || [];
 
     $("loadError").classList.add("hidden");
     renderPublic();
 
   }catch(e){
-    window.publicJobs = [...sampleJobs];
-    $("loadError").textContent = "Database jobs load nahi hue. Demo jobs abhi dikh rahe hain: " + e.message;
+    window.publicJobs = [];
+    $("loadError").textContent = "Database jobs load nahi hue. Published listings temporarily unavailable: " + e.message;
     $("loadError").classList.remove("hidden");
     renderPublic();
   }
