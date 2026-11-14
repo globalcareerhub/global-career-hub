@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://globalcareerhub.github.io/global-career-hub/sitemap.xml
