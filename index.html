@@ -102,8 +102,9 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
   </section>
 </main>
 <footer>© <span id="year"></span> Global Career Hub · Verify vacancies with employers before applying.</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+window.supabase = { createClient };
 /* Add your Supabase project URL and publishable/anon key below.
    Never paste a service_role key or an AI provider secret into this public file. */
 const SUPABASE_URL = "https://enlxskumjcizhykeiekz.supabase.co";
