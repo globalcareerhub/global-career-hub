@@ -236,6 +236,7 @@ function editJob(id){
  const j=adminJobs.find(x=>String(x.id)===String(id));if(!j)return;editingId=j.id;
  const map={title:"title",company:"company",jobCountry:"Country",jobSection:"job_section",location:"location",jobCategory:"category",jobExperience:"experience",salary:"salary",jobType:"job_type",qualification:"qualification",imageUrl:"image_url",applyUrl:"apply_url",description:"description",jobStatus:"status"};
  Object.entries(map).forEach(([field,key])=>$(field).value=j[key]||"");
+ $("jobSection").value=j.job_section||"auto";
  $("jobForm").classList.remove("hidden");$("jobForm").scrollIntoView({behavior:"smooth",block:"start"});
 }
 $("jobForm").addEventListener("submit",async e=>{
