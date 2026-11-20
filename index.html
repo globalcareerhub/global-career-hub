@@ -29,7 +29,7 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
 .actions,.chips,.job-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{border:1px solid var(--line);background:white;color:var(--navy);border-radius:30px;padding:8px 12px;font-size:13px}.chip.active{background:var(--navy);color:white}
 .job-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.job{margin:0}.job p{margin:7px 0;color:#43536a;white-space:pre-wrap}.job-meta span{background:var(--pale);padding:5px 8px;border-radius:7px;font-size:12px;color:#24466d}.muted{color:var(--muted);font-size:13px}.notice{background:#fff8e8;border:1px solid #f1d79c;padding:12px;border-radius:10px;color:#6c4b0b;font-size:13px}
 .field{margin:10px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.field textarea{min-height:90px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none!important}.status{font-size:13px;margin:8px 0;color:var(--green)}footer{text-align:center;padding:22px 14px;background:#10264b;color:#dce8f6;font-size:13px}
-@media(max-width:650px){.job-grid{grid-template-columns:1fr}.controls,.two{grid-template-columns:1fr}.wrap{width:min(100% - 22px,1050px)}header{padding-top:20px}}
+.section-nav{display:flex;gap:8px;flex-wrap:wrap;padding:12px 0}.section-nav a{background:#eaf1f8;color:var(--navy);padding:8px 11px;border-radius:20px;text-decoration:none;font-size:13px;font-weight:700}.section-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}.section-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 5px 18px #10264b0a;scroll-margin-top:12px}.section-card h3{color:var(--navy)}.section-card .job-grid{grid-template-columns:1fr}.section-card .job{padding:12px}.section-card .section-empty{font-size:13px;color:var(--muted);padding:10px;background:#f5f8fc;border-radius:8px}.latest-note{font-size:13px;color:var(--muted);margin:-5px 0 12px}@media(max-width:650px){.job-grid{grid-template-columns:1fr}.section-grid{grid-template-columns:1fr}.controls,.two{grid-template-columns:1fr}.wrap{width:min(100% - 22px,1050px)}header{padding-top:20px}}
 </style>
 </head>
 <body>
@@ -38,23 +38,34 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
   <h1>Your next opportunity starts here</h1>
   <p>Find opportunities. Build your future. Explore jobs by country, role and experience, then apply through official employer websites.</p>
 </div></header>
+<nav class="wrap section-nav" aria-label="Job sections"><a href="#india-government">India Government</a><a href="#india-private">India Private</a><a href="#uae-jobs">UAE Jobs</a><a href="#europe-jobs">Europe Jobs</a><a href="#jobs">Latest Jobs</a></nav>
 <main class="wrap">
   <section class="panel">
     <h2>Search jobs worldwide</h2>
     <div class="controls">
       <input id="q" type="search" placeholder="Search job title, company or keyword" aria-label="Search jobs">
-      <select id="country" aria-label="Choose country"><option value="">All countries</option><option>United Arab Emirates</option><option>India</option><option>New Zealand</option><option>Germany</option><option>United Kingdom</option></select>
+      <select id="country" aria-label="Choose country"><option value="">All countries</option><option>United Arab Emirates</option><option>India</option><option>Germany</option><option>United Kingdom</option><option>France</option><option>Netherlands</option><option>Ireland</option><option>Spain</option><option>Italy</option><option>New Zealand</option><option>Vietnam</option></select>
       <select id="category" aria-label="Choose category"><option value="">All categories</option><option>Construction</option><option>HVAC & Maintenance</option><option>Hospitality</option><option>Driving</option><option>Office & Admin</option><option>Warehouse</option><option>Other</option></select>
       <select id="experience" aria-label="Choose experience"><option value="">Any experience</option><option>Fresher</option><option>1-2 years</option><option>2-5 years</option><option>5+ years</option></select>
     </div>
     <div class="actions"><button id="searchBtn">Search jobs</button><button class="secondary" id="resetBtn">Reset filters</button></div>
   </section>
   <section>
-    <h2 id="jobsHeading">Latest published jobs</h2>
+    <h2 id="jobsHeading">Latest Jobs</h2>
+    <p class="latest-note">Newest published opportunities from all supported regions.</p>
     <p class="muted" id="count">Loading jobs…</p>
     <div id="jobs" class="job-grid"></div>
     <p id="empty" class="notice hidden">Abhi koi published job available nahi hai. Admin dashboard se verified vacancy publish karne par yahan dikhegi.</p>
     <p id="loadError" class="notice hidden"></p>
+  </section>
+  <section aria-label="Browse jobs by region">
+    <h2>Explore Jobs by Section</h2>
+    <div class="section-grid">
+      <section class="section-card" id="india-government"><h3>India Government Jobs</h3><p class="muted">Central and State Government vacancies</p><div id="indiaGovernmentJobs" class="job-grid"></div></section>
+      <section class="section-card" id="india-private"><h3>India Private Jobs</h3><p class="muted">Private companies and corporate careers</p><div id="indiaPrivateJobs" class="job-grid"></div></section>
+      <section class="section-card" id="uae-jobs"><h3>UAE Jobs</h3><p class="muted">Opportunities across the United Arab Emirates</p><div id="uaeJobs" class="job-grid"></div></section>
+      <section class="section-card" id="europe-jobs"><h3>Europe Jobs</h3><p class="muted">Vacancies across European countries</p><div id="europeJobs" class="job-grid"></div></section>
+    </div>
   </section>
   <section class="panel">
     <h2>Career tools</h2>
@@ -89,6 +100,7 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
           <div class="field"><label for="title">Job title *</label><input id="title" required maxlength="150"></div>
           <div class="field"><label for="company">Company *</label><input id="company" required maxlength="150"></div>
           <div class="field"><label for="jobCountry">Country *</label><input id="jobCountry" required placeholder="United Arab Emirates"></div>
+          <div class="field"><label for="jobSection">Homepage section</label><select id="jobSection"><option value="auto">Auto-detect from country</option><option value="india_government">India Government Jobs</option><option value="india_private">India Private Jobs</option><option value="uae">UAE Jobs</option><option value="europe">Europe Jobs</option><option value="other">Other / International</option></select></div>
           <div class="field"><label for="location">Location</label><input id="location" placeholder="Dubai"></div>
           <div class="field"><label for="jobCategory">Category</label><select id="jobCategory"><option>Construction</option><option>HVAC & Maintenance</option><option>Hospitality</option><option>Driving</option><option>Office & Admin</option><option>Warehouse</option><option>Other</option></select></div>
           <div class="field"><label for="jobExperience">Experience</label><input id="jobExperience" placeholder="1-2 years"></div>
@@ -140,10 +152,27 @@ const sampleJobs = [
  {id:"demo-6",title:"Building Maintenance Technician",company:"Example employer — demo listing",Country:"Germany",category:"HVAC & Maintenance",experience:"2 years preferred",salary:"Not specified",description:"Illustrative listing only. Check language, qualifications and work permit requirements.",apply_url:"https://www.make-it-in-germany.com/en/working-in-germany/job-listings"}
 ];
 window.publicJobs=[];
+function resolveSection(j){
+ const saved=String(j.job_section||"").toLowerCase();
+ if(["india_government","india_private","uae","europe","other"].includes(saved))return saved;
+ const c=String(j.Country||"").trim().toLowerCase();
+ if(c==="india")return "india_private";
+ if(c==="united arab emirates"||c==="uae")return "uae";
+ if(["united kingdom","uk","germany","france","netherlands","ireland","spain","italy","poland","sweden","norway","denmark","belgium","austria","switzerland","portugal","finland","czech republic","greece","romania","hungary","luxembourg"].includes(c))return "europe";
+ return "other";
+}
+function jobCard(j){return `<article class="job"><h3>${safe(j.title)}</h3><strong>${safe(j.company)}</strong><div class="job-meta"><span>${safe(j.Country)}</span>${j.location?`<span>${safe(j.location)}</span>`:""}${j.category?`<span>${safe(j.category)}</span>`:""}${j.experience?`<span>${safe(j.experience)}</span>`:""}</div><p>${safe(j.description)}</p>${j.salary?`<p><b>Salary:</b> ${safe(j.salary)}</p>`:""}<a class="btn" href="${safe(j.apply_url)}" target="_blank" rel="noopener noreferrer nofollow">Apply on official website</a></article>`;}
+function renderCards(target,jobs){const el=$(target);el.innerHTML=jobs.length?jobs.map(jobCard).join(""):'<p class="section-empty">No published jobs in this section yet. Please check again soon.</p>';}
 function renderPublic(){
- const list=filteredJobs();$("count").textContent=list.length+" published job(s)";
- $("jobs").innerHTML=list.map(j=>`<article class="job"><h3>${safe(j.title)}</h3><strong>${safe(j.company)}</strong><div class="job-meta"><span>${safe(j.Country)}</span>${j.location?`<span>${safe(j.location)}</span>`:""}${j.category?`<span>${safe(j.category)}</span>`:""}${j.experience?`<span>${safe(j.experience)}</span>`:""}</div><p>${safe(j.description)}</p>${j.salary?`<p><b>Salary:</b> ${safe(j.salary)}</p>`:""}<a class="btn" href="${safe(j.apply_url)}" target="_blank" rel="noopener noreferrer nofollow">Apply on official website</a></article>`).join("");
+ const list=filteredJobs();const hasFilter=$("q").value.trim()||$("country").value||$("category").value||$("experience").value;
+ const latest=hasFilter?list:list.slice(0,6);$("count").textContent=list.length+" published job(s) found";
+ $("jobs").innerHTML=latest.map(jobCard).join("");
  $("empty").classList.toggle("hidden",list.length!==0);$("jobs").classList.toggle("hidden",list.length===0);
+ const regional=hasFilter?list:window.publicJobs;
+ renderCards("indiaGovernmentJobs",regional.filter(j=>resolveSection(j)==="india_government").slice(0,4));
+ renderCards("indiaPrivateJobs",regional.filter(j=>resolveSection(j)==="india_private").slice(0,4));
+ renderCards("uaeJobs",regional.filter(j=>resolveSection(j)==="uae").slice(0,4));
+ renderCards("europeJobs",regional.filter(j=>resolveSection(j)==="europe").slice(0,4));
 }
 
 async function loadPublic(){
@@ -160,7 +189,7 @@ async function loadPublic(){
       .from("jobs")
       .select("*")
       .eq("status","published")
-      .order("posted_at",{ascending:false});
+      .order("posted_at",{ascending:false,nullsFirst:false}).order("created_at",{ascending:false});
 
     if(error) throw error;
 
@@ -195,7 +224,7 @@ $("logoutBtn").addEventListener("click",async()=>{await db.auth.signOut();$("das
 async function loadAdminJobs(){
  const {data,error}=await db.from("jobs").select("*").order("created_at",{ascending:false});
  if(error){msg("adminMsg",error.message);return;}adminJobs=data||[];
- $("adminJobs").innerHTML=adminJobs.map(j=>`<div class="job"><b>${safe(j.title)}</b> · ${safe(j.Country)} · <span class="muted">${safe(j.status)}</span><div class="actions"><button class="secondary" data-edit="${j.id}">Edit</button><button class="secondary" data-toggle="${j.id}" data-status="${safe(j.status)}">${j.status==="published"?"Unpublish":"Publish"}</button><button class="danger" data-delete="${j.id}">Delete</button></div></div>`).join("")||'<p class="muted">No jobs added yet.</p>';
+ $("adminJobs").innerHTML=adminJobs.map(j=>`<div class="job"><b>${safe(j.title)}</b> · ${safe(j.Country)} · <span class="muted">${safe(j.job_section||"auto")}</span> · <span class="muted">${safe(j.status)}</span><div class="actions"><button class="secondary" data-edit="${j.id}">Edit</button><button class="secondary" data-toggle="${j.id}" data-status="${safe(j.status)}">${j.status==="published"?"Unpublish":"Publish"}</button><button class="danger" data-delete="${j.id}">Delete</button></div></div>`).join("")||'<p class="muted">No jobs added yet.</p>';
  $("adminJobs").querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editJob(b.dataset.edit)));
  $("adminJobs").querySelectorAll("[data-toggle]").forEach(b=>b.addEventListener("click",()=>toggleJobStatus(b.dataset.toggle,b.dataset.status)));
  $("adminJobs").querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteJob(b.dataset.delete)));
@@ -205,14 +234,14 @@ $("newJobBtn").addEventListener("click",()=>{clearForm();$("jobForm").classList.
 $("cancelBtn").addEventListener("click",()=>{$("jobForm").classList.add("hidden");clearForm();});
 function editJob(id){
  const j=adminJobs.find(x=>String(x.id)===String(id));if(!j)return;editingId=j.id;
- const map={title:"title",company:"company",jobCountry:"Country",location:"location",jobCategory:"category",jobExperience:"experience",salary:"salary",jobType:"job_type",qualification:"qualification",imageUrl:"image_url",applyUrl:"apply_url",description:"description",jobStatus:"status"};
+ const map={title:"title",company:"company",jobCountry:"Country",jobSection:"job_section",location:"location",jobCategory:"category",jobExperience:"experience",salary:"salary",jobType:"job_type",qualification:"qualification",imageUrl:"image_url",applyUrl:"apply_url",description:"description",jobStatus:"status"};
  Object.entries(map).forEach(([field,key])=>$(field).value=j[key]||"");
  $("jobForm").classList.remove("hidden");$("jobForm").scrollIntoView({behavior:"smooth",block:"start"});
 }
 $("jobForm").addEventListener("submit",async e=>{
  e.preventDefault();if(!db||!currentUser)return;
  const url=$("applyUrl").value.trim();if(!/^https:\/\//i.test(url)){msg("adminMsg","Official Apply URL https:// se start hona chahiye.");return;}
- const payload={title:$("title").value.trim(),company:$("company").value.trim(),Country:$("jobCountry").value.trim(),location:$("location").value.trim(),category:$("jobCategory").value,experience:$("jobExperience").value.trim(),salary:$("salary").value.trim(),job_type:$("jobType").value,qualification:$("qualification").value.trim(),image_url:$("imageUrl").value.trim()||null,apply_url:url,description:$("description").value.trim(),status:$("jobStatus").value,posted_at:$("jobStatus").value==="published"?new Date().toISOString():null};
+ const selectedSection=$("jobSection").value;const autoCountry=$("jobCountry").value.trim().toLowerCase();const inferredSection=autoCountry==="india"?"india_private":(autoCountry==="united arab emirates"||autoCountry==="uae")?"uae":(["united kingdom","uk","germany","france","netherlands","ireland","spain","italy","poland","sweden","norway","denmark","belgium","austria","switzerland","portugal","finland","czech republic","greece","romania","hungary","luxembourg"].includes(autoCountry)?"europe":"other");const payload={title:$("title").value.trim(),company:$("company").value.trim(),Country:$("jobCountry").value.trim(),job_section:selectedSection==="auto"?inferredSection:selectedSection,location:$("location").value.trim(),category:$("jobCategory").value,experience:$("jobExperience").value.trim(),salary:$("salary").value.trim(),job_type:$("jobType").value,qualification:$("qualification").value.trim(),image_url:$("imageUrl").value.trim()||null,apply_url:url,description:$("description").value.trim(),status:$("jobStatus").value,posted_at:$("jobStatus").value==="published"?new Date().toISOString():null};
  $("saveBtn").disabled=true;msg("adminMsg","Saving…");
  const result=editingId?await db.from("jobs").update(payload).eq("id",editingId):await db.from("jobs").insert(payload);
  $("saveBtn").disabled=false;if(result.error){msg("adminMsg",result.error.message);return;}
