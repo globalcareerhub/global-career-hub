@@ -38,7 +38,7 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
   <h1>Your next opportunity starts here</h1>
   <p>Find opportunities. Build your future. Explore jobs by country, role and experience, then apply through official employer websites.</p>
 </div></header>
-<nav class="wrap section-nav" aria-label="Job sections"><a href="#india-government">India Government</a><a href="#india-private">India Private</a><a href="#uae-jobs">UAE Jobs</a><a href="#europe-jobs">Europe Jobs</a><a href="#jobs">Latest Jobs</a></nav>
+<nav class="wrap section-nav" aria-label="Job sections"><a href="#india-government">India Government</a><a href="#india-private">India Private</a><a href="#gulf-jobs">Gulf Jobs</a><a href="#europe-jobs">Europe Jobs</a><a href="#jobs">Latest Jobs</a></nav>
 <main class="wrap">
   <section class="panel">
     <h2>Search jobs worldwide</h2>
@@ -63,7 +63,7 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
     <div class="section-grid">
       <section class="section-card" id="india-government"><h3>India Government Jobs</h3><p class="muted">Central and State Government vacancies</p><div id="indiaGovernmentJobs" class="job-grid"></div></section>
       <section class="section-card" id="india-private"><h3>India Private Jobs</h3><p class="muted">Private companies and corporate careers</p><div id="indiaPrivateJobs" class="job-grid"></div></section>
-      <section class="section-card" id="uae-jobs"><h3>UAE Jobs</h3><p class="muted">Opportunities across the United Arab Emirates</p><div id="uaeJobs" class="job-grid"></div></section>
+      <section class="section-card" id="gulf-jobs"><h3>Gulf Jobs</h3><p class="muted">Opportunities across the Gulf region: UAE, Saudi Arabia, Qatar, Kuwait, Oman and Bahrain</p><div id="gulfJobs" class="job-grid"></div></section>
       <section class="section-card" id="europe-jobs"><h3>Europe Jobs</h3><p class="muted">Vacancies across European countries</p><div id="europeJobs" class="job-grid"></div></section>
     </div>
   </section>
@@ -100,7 +100,7 @@ button.secondary{background:#eaf1f8;color:var(--navy)}button.danger{background:#
           <div class="field"><label for="title">Job title *</label><input id="title" required maxlength="150"></div>
           <div class="field"><label for="company">Company *</label><input id="company" required maxlength="150"></div>
           <div class="field"><label for="jobCountry">Country *</label><input id="jobCountry" required placeholder="United Arab Emirates"></div>
-          <div class="field"><label for="jobSection">Homepage section</label><select id="jobSection"><option value="auto">Auto-detect from country</option><option value="india_government">India Government Jobs</option><option value="india_private">India Private Jobs</option><option value="uae">UAE Jobs</option><option value="europe">Europe Jobs</option><option value="other">Other / International</option></select></div>
+          <div class="field"><label for="jobSection">Homepage section</label><select id="jobSection"><option value="auto">Auto-detect from country</option><option value="india_government">India Government Jobs</option><option value="india_private">India Private Jobs</option><option value="gulf">Gulf Jobs</option><option value="europe">Europe Jobs</option><option value="other">Other / International</option></select></div>
           <div class="field"><label for="location">Location</label><input id="location" placeholder="Dubai"></div>
           <div class="field"><label for="jobCategory">Category</label><select id="jobCategory"><option>Construction</option><option>HVAC & Maintenance</option><option>Hospitality</option><option>Driving</option><option>Office & Admin</option><option>Warehouse</option><option>Other</option></select></div>
           <div class="field"><label for="jobExperience">Experience</label><input id="jobExperience" placeholder="1-2 years"></div>
@@ -157,7 +157,7 @@ function resolveSection(j){
  if(["india_government","india_private","uae","europe","other"].includes(saved))return saved;
  const c=String(j.Country||"").trim().toLowerCase();
  if(c==="india")return "india_private";
- if(c==="united arab emirates"||c==="uae")return "uae";
+ if(["united arab emirates","uae","saudi arabia","kingdom of saudi arabia","qatar","kuwait","oman","sultanate of oman","bahrain"].includes(c))return "gulf";
  if(["united kingdom","uk","germany","france","netherlands","ireland","spain","italy","poland","sweden","norway","denmark","belgium","austria","switzerland","portugal","finland","czech republic","greece","romania","hungary","luxembourg"].includes(c))return "europe";
  return "other";
 }
@@ -171,7 +171,7 @@ function renderPublic(){
  const regional=hasFilter?list:window.publicJobs;
  renderCards("indiaGovernmentJobs",regional.filter(j=>resolveSection(j)==="india_government").slice(0,4));
  renderCards("indiaPrivateJobs",regional.filter(j=>resolveSection(j)==="india_private").slice(0,4));
- renderCards("uaeJobs",regional.filter(j=>resolveSection(j)==="uae").slice(0,4));
+ renderCards("gulfJobs",regional.filter(j=>resolveSection(j)==="gulf").slice(0,4));
  renderCards("europeJobs",regional.filter(j=>resolveSection(j)==="europe").slice(0,4));
 }
 
@@ -242,7 +242,7 @@ function editJob(id){
 $("jobForm").addEventListener("submit",async e=>{
  e.preventDefault();if(!db||!currentUser)return;
  const url=$("applyUrl").value.trim();if(!/^https:\/\//i.test(url)){msg("adminMsg","Official Apply URL https:// se start hona chahiye.");return;}
- const selectedSection=$("jobSection").value;const autoCountry=$("jobCountry").value.trim().toLowerCase();const inferredSection=autoCountry==="india"?"india_private":(autoCountry==="united arab emirates"||autoCountry==="uae")?"uae":(["united kingdom","uk","germany","france","netherlands","ireland","spain","italy","poland","sweden","norway","denmark","belgium","austria","switzerland","portugal","finland","czech republic","greece","romania","hungary","luxembourg"].includes(autoCountry)?"europe":"other");const payload={title:$("title").value.trim(),company:$("company").value.trim(),Country:$("jobCountry").value.trim(),job_section:selectedSection==="auto"?inferredSection:selectedSection,location:$("location").value.trim(),category:$("jobCategory").value,experience:$("jobExperience").value.trim(),salary:$("salary").value.trim(),job_type:$("jobType").value,qualification:$("qualification").value.trim(),image_url:$("imageUrl").value.trim()||null,apply_url:url,description:$("description").value.trim(),status:$("jobStatus").value,posted_at:$("jobStatus").value==="published"?new Date().toISOString():null};
+ const selectedSection=$("jobSection").value;const autoCountry=$("jobCountry").value.trim().toLowerCase();const inferredSection=autoCountry==="india"?"india_private":(["united arab emirates","uae","saudi arabia","kingdom of saudi arabia","qatar","kuwait","oman","sultanate of oman","bahrain"].includes(autoCountry))?"gulf":(["united kingdom","uk","germany","france","netherlands","ireland","spain","italy","poland","sweden","norway","denmark","belgium","austria","switzerland","portugal","finland","czech republic","greece","romania","hungary","luxembourg"].includes(autoCountry)?"europe":"other");const payload={title:$("title").value.trim(),company:$("company").value.trim(),Country:$("jobCountry").value.trim(),job_section:selectedSection==="auto"?inferredSection:selectedSection,location:$("location").value.trim(),category:$("jobCategory").value,experience:$("jobExperience").value.trim(),salary:$("salary").value.trim(),job_type:$("jobType").value,qualification:$("qualification").value.trim(),image_url:$("imageUrl").value.trim()||null,apply_url:url,description:$("description").value.trim(),status:$("jobStatus").value,posted_at:$("jobStatus").value==="published"?new Date().toISOString():null};
  $("saveBtn").disabled=true;msg("adminMsg","Saving…");
  const result=editingId?await db.from("jobs").update(payload).eq("id",editingId):await db.from("jobs").insert(payload);
  $("saveBtn").disabled=false;if(result.error){msg("adminMsg",result.error.message);return;}
