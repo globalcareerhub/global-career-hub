@@ -158,8 +158,9 @@ const sampleJobs = [
 ];
 window.publicJobs=[];
 function resolveSection(j){
- const saved=String(j.job_section||"").toLowerCase();
- if(["india_government","india_private","uae","europe","other"].includes(saved))return saved;
+ const saved=String(j.job_section||"").trim().toLowerCase();
+ if(["india_government","india_private","gulf","europe","other"].includes(saved))return saved;
+ if(saved==="uae"||saved==="saudi_arabia"||saved==="qatar"||saved==="kuwait"||saved==="oman"||saved==="bahrain")return "gulf";
  const c=String(j.Country||"").trim().toLowerCase();
  if(c==="india")return "india_private";
  if(["united arab emirates","uae","saudi arabia","kingdom of saudi arabia","qatar","kuwait","oman","sultanate of oman","bahrain"].includes(c))return "gulf";
@@ -173,7 +174,9 @@ function renderPublic(){
  const latest=hasFilter?list:list.slice(0,6);$("count").textContent=list.length+" published job(s) found";
  $("jobs").innerHTML=latest.map(jobCard).join("");
  $("empty").classList.toggle("hidden",list.length!==0);$("jobs").classList.toggle("hidden",list.length===0);
- const regional=hasFilter?list:window.publicJobs;
+ // Homepage region sections always show all published jobs.
+ // Search filters affect Latest Jobs only, not the four permanent region sections.
+ const regional=window.publicJobs;
  renderCards("indiaGovernmentJobs",regional.filter(j=>resolveSection(j)==="india_government").slice(0,4));
  renderCards("indiaPrivateJobs",regional.filter(j=>resolveSection(j)==="india_private").slice(0,4));
  renderCards("gulfJobs",regional.filter(j=>resolveSection(j)==="gulf").slice(0,4));
