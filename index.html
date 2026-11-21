@@ -177,10 +177,10 @@ function renderPublic(){
  // Homepage region sections always show all published jobs.
  // Search filters affect Latest Jobs only, not the four permanent region sections.
  const regional=window.publicJobs;
- renderCards("indiaGovernmentJobs",regional.filter(j=>resolveSection(j)==="india_government").slice(0,4));
- renderCards("indiaPrivateJobs",regional.filter(j=>resolveSection(j)==="india_private").slice(0,4));
- renderCards("gulfJobs",regional.filter(j=>resolveSection(j)==="gulf").slice(0,4));
- renderCards("europeJobs",regional.filter(j=>resolveSection(j)==="europe").slice(0,4));
+ renderCards("indiaGovernmentJobs",regional.filter(j=>resolveSection(j)==="india_government"));
+ renderCards("indiaPrivateJobs",regional.filter(j=>resolveSection(j)==="india_private"));
+ renderCards("gulfJobs",regional.filter(j=>resolveSection(j)==="gulf"));
+ renderCards("europeJobs",regional.filter(j=>resolveSection(j)==="europe"));
 }
 
 async function loadPublic(){
