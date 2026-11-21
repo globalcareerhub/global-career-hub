@@ -286,7 +286,7 @@ $("aiBtn").addEventListener("click",async()=>{
  const {data,error}=await db.functions.invoke("generate-job",{body:{prompt}});
  $("aiBtn").disabled=false;
  if(error){msg("aiMsg","AI backend abhi deploy nahi hai ya request fail hui: "+error.message);return;}
- if(data?.description){$("description").value=data.description;if(data.title)$("title").value=data.title;const form=$("jobForm");form.classList.remove("hidden");form.style.setProperty("display","block","important");form.style.visibility="visible";form.scrollIntoView({behavior:"smooth",block:"start"});msg("aiMsg","Draft ready. Job title aur description neeche form mein bhar diye gaye hain. Verify karein.");}
+ if(data?.description){$("description").value=data.description;if(data.title)$("title").value=data.title;if(data.country)$("jobCountry").value=data.country;if(data.section&&["india_government","india_private","gulf","europe","other"].includes(data.section))$("jobSection").value=data.section;if(data.category&&[...$("jobCategory").options].some(o=>o.value===data.category||o.text===data.category))$("jobCategory").value=data.category;const form=$("jobForm");form.classList.remove("hidden");form.style.setProperty("display","block","important");form.style.visibility="visible";form.scrollIntoView({behavior:"smooth",block:"start"});msg("aiMsg","AI draft ready. Country, section aur category bhi fill kiye gaye hain. Publish se pehle details verify karein.");}
  else msg("aiMsg","AI response mila, lekin description field nahi mili. Edge Function response check karein.");
 });
 if(db){checkAdmin();}loadPublic();
