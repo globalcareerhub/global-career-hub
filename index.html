@@ -143,6 +143,17 @@ let db = null, currentUser = null, adminJobs = [], editingId = null;
 if (window.supabase && CONFIG_READY) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 $("year").textContent = new Date().getFullYear();
 
+// Mobile-friendly section navigation: make each section link scroll reliably on tap.
+document.querySelectorAll('.section-nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', event => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', link.getAttribute('href'));
+  });
+});
+
 function safe(value){return String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function filteredJobs(){
  const q=$("q").value.trim().toLowerCase(), country=$("country").value, cat=$("category").value, exp=$("experience").value;
